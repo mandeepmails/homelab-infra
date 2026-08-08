@@ -1,6 +1,9 @@
 deployment:
   kind: DaemonSet
 
+updateStrategy:
+  type: OnDelete
+
 service:
   enabled: true
   type: LoadBalancer
