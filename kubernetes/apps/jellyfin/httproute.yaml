@@ -7,8 +7,11 @@ spec:
   parentRefs:
     - name: traefik-gateway
       namespace: ingress
+      sectionName: websecure
+
   hostnames:
-    - jellyfin.local
+    - jellyfin.sample.lan
+
   rules:
     - matches:
         - path:
