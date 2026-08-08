@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sample-lan-tls
+  namespace: ingress
+spec:
+  secretName: sample-lan-tls
+  issuerRef:
+    name: sample-lan-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - "*.sample.lan"
+    - "sample.lan"
