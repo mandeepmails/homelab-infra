@@ -1,0 +1,18 @@
+---
+- name: Create storage mountpoints
+  ansible.builtin.file:
+    path: "{{ item.mountpoint }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop: "{{ data_disks }}"
+
+- name: Mount homelab data disks
+  ansible.posix.mount:
+    path: "{{ item.mountpoint }}"
+    src: "{{ item.device }}"
+    fstype: "{{ item.fstype }}"
+    opts: "{{ item.options }}"
+    state: mounted
+  loop: "{{ data_disks }}"

@@ -1,0 +1,17 @@
+---
+homelab_hostname: us253
+homelab_ip: 10.0.0.253
+
+microk8s_channel: "1.35/stable"
+metallb_address_range: "10.0.0.40-10.0.0.50"
+
+data_disks:
+  - device: /dev/disk/by-uuid/999c5e66-bfb7-4c65-8555-64c8b84274db
+    mountpoint: /mnt/8000SAM1
+    fstype: ext4
+    options: defaults,nofail
+
+  - device: /dev/disk/by-uuid/de958929-3133-4f48-b45c-d16a646c3045
+    mountpoint: /mnt/2000CRU2
+    fstype: ext4
+    options: defaults,nofail

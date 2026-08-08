@@ -1,0 +1,43 @@
+---
+- name: Ensure microk8s is installed
+  community.general.snap:
+    name: microk8s
+    classic: true
+    channel: "{{ microk8s_channel }}"
+
+- name: Add pi to microk8s group
+  ansible.builtin.user:
+    name: pi
+    groups: microk8s
+    append: true
+
+- name: Create kubeconfig directory
+  ansible.builtin.file:
+    path: /home/pi/.kube
+    state: directory
+    owner: pi
+    group: pi
+    mode: "0700"
+
+- name: Wait for MicroK8s
+  ansible.builtin.command:
+    cmd: microk8s status --wait-ready
+  changed_when: false
+
+- name: Enable MicroK8s DNS
+  ansible.builtin.command:
+    cmd: microk8s enable dns
+  register: microk8s_dns
+  changed_when: "'already enabled' not in microk8s_dns.stdout"
+
+- name: Enable MicroK8s Helm3
+  ansible.builtin.command:
+    cmd: microk8s enable helm3
+  register: microk8s_helm
+  changed_when: "'already enabled' not in microk8s_helm.stdout"
+
+- name: Enable MicroK8s MetalLB
+  ansible.builtin.command:
+    cmd: microk8s enable metallb:{{ metallb_address_range }}
+  register: microk8s_metallb
+  changed_when: "'already enabled' not in microk8s_metallb.stdout"
