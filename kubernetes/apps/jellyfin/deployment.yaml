@@ -15,12 +15,17 @@ spec:
       labels:
         app: jellyfin
     spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: jellyfin
           image: jellyfin/jellyfin:latest
           ports:
             - name: http
               containerPort: 8096
+            - name: discovery
+              containerPort: 7359
+              protocol: UDP
           volumeMounts:
             - name: config
               mountPath: /config
