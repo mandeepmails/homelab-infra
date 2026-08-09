@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-server
+  namespace: code-server
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: code-server
+  template:
+    metadata:
+      labels:
+        app: code-server
+    spec:
+      containers:
+        - name: code-server
+          image: lscr.io/linuxserver/code-server:latest
+          imagePullPolicy: Always
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: Asia/Kolkata
+            - name: DEFAULT_WORKSPACE
+              value: /workspace
+          ports:
+            - name: http
+              containerPort: 8443
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: workspace
+              mountPath: /workspace
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/8000SAM1/8000/docker/development/code-server/config
+            type: Directory
+        - name: workspace
+          hostPath:
+            path: /mnt/8000SAM1/8000/docker/development/workspace
+            type: Directory
