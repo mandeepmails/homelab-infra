@@ -33,6 +33,12 @@ RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
+# Node.js + npm
+RUN apt-get update && \
+    apt-get install -y nodejs npm && \
+    npm install -g @google/gemini-cli && \
+    rm -rf /var/lib/apt/lists/*
+
 # GitHub CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
     | tee /usr/share/keyrings/githubcli-archive-keyring.gpg >/dev/null && \
