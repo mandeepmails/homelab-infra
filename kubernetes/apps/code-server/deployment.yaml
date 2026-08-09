@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: code-server
-          image: ghcr.io/mandeepmails/homelab-code-server:1c733bf1bc6122fc285662f9979d405fbef700a0
+          image: ghcr.io/mandeepmails/homelab-code-server:0fdfedef39a5c1a1ec802f3e56724e634844a6af
           imagePullPolicy: Always
           env:
             - name: PUID
