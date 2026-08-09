@@ -1,13 +1,14 @@
-name: Build code-server
+name: Build Code Server
 
 on:
   push:
     branches:
       - main
     paths:
-      - kubernetes/apps/code-server/image/**
-      - kubernetes/apps/code-server/deployment.yaml
+      - docker/code-server/**
       - .github/workflows/build-code-server.yml
+
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -31,8 +32,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./kubernetes/apps/code-server/image
+          context: ./docker/code-server
           push: true
           tags: |
-            ghcr.io/mandeepmails/homelab-code-server:stage1
+            ghcr.io/mandeepmails/homelab-code-server:latest
             ghcr.io/mandeepmails/homelab-code-server:${{ github.sha }}
