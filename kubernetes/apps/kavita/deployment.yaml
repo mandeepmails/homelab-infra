@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kavita
+  namespace: kavita
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: kavita
+  template:
+    metadata:
+      labels:
+        app: kavita
+    spec:
+      containers:
+        - name: kavita
+          image: jvmilazz0/kavita:latest
+          imagePullPolicy: Always
+          env:
+            - name: TZ
+              value: Asia/Kolkata
+          ports:
+            - name: http
+              containerPort: 5000
+          volumeMounts:
+            - name: config
+              mountPath: /kavita/config
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/8000SAM1/8000/docker/downloaders/kavita/config
+            type: Directory
+        - name: data
+          hostPath:
+            path: /mnt/8000SAM1/8000
+            type: Directory
