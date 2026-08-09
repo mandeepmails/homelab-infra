@@ -71,5 +71,4 @@ RUN curl --proto '=https' --tlsv1.2 -fsSL \
     rm -f /tmp/install-opentofu.sh
 
 # k9s
-RUN curl -fsSL https://raw.githubusercontent.com/derailed/k9s/master/install.sh \
-    | bash
+RUN K9S_VERSION="$(curl -fsSL https://api.github.com/repos/derailed/k9s/releases/latest |     python3 -c 'import json,sys; print(json.load(sys.stdin)["tag_name"])')" &&     curl -fsSL "https://github.com/derailed/k9s/releases/download/${K9S_VERSION}/k9s_Linux_amd64.tar.gz"     -o /tmp/k9s.tar.gz &&     tar -xzf /tmp/k9s.tar.gz -C /tmp k9s &&     install -m 0755 /tmp/k9s /usr/local/bin/k9s &&     rm -f /tmp/k9s.tar.gz /tmp/k9s
