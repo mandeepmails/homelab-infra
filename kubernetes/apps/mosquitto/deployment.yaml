@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mosquitto
+  namespace: mosquitto
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mosquitto
+  template:
+    metadata:
+      labels:
+        app: mosquitto
+    spec:
+      containers:
+        - name: mosquitto
+          image: eclipse-mosquitto:2
+          imagePullPolicy: Always
+          ports:
+            - name: mqtt
+              containerPort: 1883
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /mosquitto/config
+            - name: data
+              mountPath: /mosquitto/data
+            - name: log
+              mountPath: /mosquitto/log
+      volumes:
+        - name: config
+          hostPath:
+            path: /mnt/8000SAM1/8000/docker/mqtt/mosquitto/config
+            type: Directory
+        - name: data
+          hostPath:
+            path: /mnt/8000SAM1/8000/docker/mqtt/mosquitto/data
+            type: Directory
+        - name: log
+          hostPath:
+            path: /mnt/8000SAM1/8000/docker/mqtt/mosquitto/log
+            type: Directory
